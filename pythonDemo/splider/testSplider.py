@@ -1,11 +1,13 @@
+import hashlib
 import os
 import random
 import shutil
 import time
-from hashlib import md5
 
 import requests;
 import re;
+
+import urllib3
 from pyquery import PyQuery as pq;
 import json;
 
@@ -38,7 +40,7 @@ headers = {
     # 'cookie': 'csrftoken=ZhNZ1hAmf5xnCAXHf55qDeJ0Npm6HMxo; mid=XTxkOAALAAEaF-WyKLT-XyUPKHwo; rur=ATN; urlgen="{\"172.105.210.43\": 63949}:1hvzk0:XEnx0HnTbyZfQxoIPNJ4ryMxW74"'
 };
 
-download_headers = {
+download_headers = { 
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
         'Accept-Encoding':'gzip, deflate',
         'Accept-Language':'zh-CN,zh;q=0.9',
@@ -150,7 +152,7 @@ def main(user):
         try:
             content = get_content(urls[i]);
             endw = "mp4" if r'mp4?nc_ht=scontent-nrt1-1.cdninstagram.com' in urls[i] else "jpg";
-            file_path = r"D:\instagram_pic\{0}\{1}.{2}".format(user, md5(content).hexdigest(), endw);
+            file_path = r"D:\instagram_pic\{0}\{1}.{2}".format(user, hashlib.md5(content).hexdigest(), endw);
             if not os.path.exists(file_path):
                 with open(file_path, "wb") as f:
                     print("第{0}张下载完成: ".format(i) + urls[i]);
@@ -161,8 +163,8 @@ def main(user):
             print(e);
             print("图片or视频下载失败!");
 if __name__ == '__main__':
-    # main("giuliogroebert");
     print(headers)
+    urllib3.disable_warnings();
     main("giuliogroebert")
     # path = "D:\instagram_pic\giuliogroebert";
     # if os.path.exists(path):
