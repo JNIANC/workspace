@@ -36,7 +36,6 @@ thread2 = myThread(1002,"thread-2",2);
 # 开启线程
 thread1.start()
 thread2.start()
-
 # 添加线程列表
 threadList.append(thread1)
 threadList.append(thread2)
